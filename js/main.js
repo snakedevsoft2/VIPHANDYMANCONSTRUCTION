@@ -78,6 +78,35 @@
     } catch (e) { /* deja el texto por defecto */ }
   }
 
+  // Horario: desplegable con los días de la semana (resalta hoy)
+  var hoursToggle = document.getElementById('hoursToggle');
+  var hoursList = document.getElementById('hoursList');
+  if (hoursToggle && hoursList) {
+    try {
+      var weekday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'America/Puerto_Rico' }).format(new Date());
+      var dayIndex = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(weekday);
+      var today = hoursList.querySelector('[data-day="' + dayIndex + '"]');
+      if (today) today.classList.add('is-today');
+    } catch (e) {}
+    hoursToggle.addEventListener('click', function () {
+      var open = hoursList.hidden;
+      hoursList.hidden = !open;
+      hoursToggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+
+  // Botón "Comunícate con nosotros." muestra el formulario
+  var formToggle = document.getElementById('formToggle');
+  var contactForm = document.getElementById('contactForm');
+  if (formToggle && contactForm) {
+    formToggle.addEventListener('click', function () {
+      var open = contactForm.hidden;
+      contactForm.hidden = !open;
+      formToggle.setAttribute('aria-expanded', String(open));
+      if (open) contactForm.querySelector('input[name="nombre"]').focus();
+    });
+  }
+
   // Año del footer
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
